@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Patient Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        /* =========================
+           NAVIGATION BAR
+        ========================= */
+
+        nav {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            background-color: #125ca8;
+            padding: 10px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            background-color: #0d477f;
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1976d2;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        form {
+            background-color: white;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 900px;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+            border-radius: 8px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 15px;
+
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        button {
+            padding: 10px 15px;
+
+            color: white;
+            border: none;
+            border-radius: 5px;
+
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* Add / Update button */
+
+        .submit-button {
+            grid-column: span 2;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #1976d2;
+        }
+
+        .submit-button:hover {
+            background-color: #125ca8;
+        }
+
+        /* Edit button */
+
+        .edit-button {
+            background-color: #0d47a1;
+            margin-right: 5px;
+        }
+
+        .edit-button:hover {
+            background-color: #08306b;
+        }
+
+        /* Delete button */
+
+        .delete-button {
+            background-color: #d32f2f;
+        }
+
+        .delete-button:hover {
+            background-color: #b71c1c;
+        }
+
+        /* Cancel button */
+
+        .cancel-button {
+            grid-column: span 2;
+            background-color: #1976d2;
+            display: none;
+        }
+
+        .cancel-button:hover {
+            background-color: #125ca8;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            margin-top: 30px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f7fc;
+        }
+
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 40px;
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                width: 200px;
+                text-align: center;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .submit-button,
+            .cancel-button {
+                grid-column: span 1;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <h1>
+        E-Health Management System
+    </h1>
+
+    <p>
+        Patient Management
+    </p>
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="patients.html">
+            Patients
+        </a>
+
+        <a href="doctors.html">
+            Doctors
+        </a>
+
+        <a href="appointments.html">
+            Appointments
+        </a>
+
+        <a href="medical-records.html">
+            Medical Records
+        </a>
+
+    </nav>
+
+</header>
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<div class="container">
+
+    <h2>
+        Patient Management
+    </h2>
+
+    <!-- =========================
+         PATIENT FORM
+    ========================= -->
+
+    <form id="patientForm">
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Name"
+            required
+        >
+
+        <input
+            type="number"
+            id="age"
+            placeholder="Age"
+            required
+        >
+
+        <input
+            type="text"
+            id="gender"
+            placeholder="Gender"
+            required
+        >
+
+        <input
+            type="text"
+            id="phone"
+            placeholder="Phone"
+        >
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email"
+        >
+
+        <input
+            type="text"
+            id="address"
+            placeholder="Address"
+        >
+
+        <input
+            type="text"
+            id="blood_group"
+            placeholder="Blood Group"
+        >
+
+        <button
+            type="submit"
+            id="submitButton"
+            class="submit-button"
+        >
+            Add Patient
+        </button>
+
+        <button
+            type="button"
+            id="cancelButton"
+            class="cancel-button"
+            onclick="cancelEdit()"
+        >
+            Cancel
+        </button>
+
+    </form>
+
+    <!-- =========================
+         PATIENT TABLE
+    ========================= -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Blood Group</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="patientTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        E-Health Management System
+    </p>
+
+</footer>
+
+<script>
+
+    let editingPatientId = null;
+
+    // ==========================================
+    // LOAD PATIENTS
+    // ==========================================
+
+    function loadPatients() {
+
+        fetch("/api/patients")
+
+            .then(response => response.json())
+
+            .then(patients => {
+
+                const table =
+                    document.getElementById("patientTable");
+
+                table.innerHTML = "";
+
+                patients.forEach(patient => {
+
+                    const row =
+                        document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${patient.id}</td>
+
+                        <td>${patient.name}</td>
+
+                        <td>${patient.age}</td>
+
+                        <td>${patient.gender}</td>
+
+                        <td>${patient.phone || ""}</td>
+
+                        <td>${patient.email || ""}</td>
+
+                        <td>${patient.address || ""}</td>
+
+                        <td>${patient.blood_group || ""}</td>
+
+                        <td>
+
+                            <button
+                                class="edit-button"
+                                onclick="editPatient(${patient.id})"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="delete-button"
+                                onclick="deletePatient(${patient.id})"
+                            >
+                                Delete
+                            </button>
+
+                        </td>
+                    `;
+
+                    table.appendChild(row);
+
+                });
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Error loading patients:",
+                    error
+                );
+
+            });
+
+    }
+
+    // ==========================================
+    // ADD / UPDATE PATIENT
+    // ==========================================
+
+    document
+        .getElementById("patientForm")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const patientData = {
+
+                    name:
+                        document.getElementById("name").value,
+
+                    age:
+                        document.getElementById("age").value,
+
+                    gender:
+                        document.getElementById("gender").value,
+
+                    phone:
+                        document.getElementById("phone").value,
+
+                    email:
+                        document.getElementById("email").value,
+
+                    address:
+                        document.getElementById("address").value,
+
+                    blood_group:
+                        document.getElementById("blood_group").value
+
+                };
+
+                let url = "/api/patients";
+
+                let method = "POST";
+
+                if (editingPatientId !== null) {
+
+                    url =
+                        `/api/patients/${editingPatientId}`;
+
+                    method = "PUT";
+
+                }
+
+                fetch(url, {
+
+                    method: method,
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(patientData)
+
+                })
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    alert(data.message);
+
+                    resetForm();
+
+                    loadPatients();
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "Error saving patient:",
+                        error
+                    );
+
+                });
+
+            }
+        );
+
+    // ==========================================
+    // EDIT PATIENT
+    // ==========================================
+
+    function editPatient(id) {
+
+        fetch("/api/patients")
+
+            .then(response => response.json())
+
+            .then(patients => {
+
+                const patient =
+                    patients.find(
+                        p => p.id === id
+                    );
+
+                if (!patient) {
+
+                    alert("Patient not found");
+
+                    return;
+
+                }
+
+                editingPatientId = id;
+
+                document.getElementById("name").value =
+                    patient.name;
+
+                document.getElementById("age").value =
+                    patient.age;
+
+                document.getElementById("gender").value =
+                    patient.gender;
+
+                document.getElementById("phone").value =
+                    patient.phone || "";
+
+                document.getElementById("email").value =
+                    patient.email || "";
+
+                document.getElementById("address").value =
+                    patient.address || "";
+
+                document.getElementById("blood_group").value =
+                    patient.blood_group || "";
+
+                document.getElementById(
+                    "submitButton"
+                ).textContent =
+                    "Update Patient";
+
+                document.getElementById(
+                    "cancelButton"
+                ).style.display =
+                    "block";
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+            });
+
+    }
+
+    // ==========================================
+    // CANCEL EDIT
+    // ==========================================
+
+    function cancelEdit() {
+
+        resetForm();
+
+    }
+
+    // ==========================================
+    // RESET FORM
+    // ==========================================
+
+    function resetForm() {
+
+        editingPatientId = null;
+
+        document
+            .getElementById("patientForm")
+            .reset();
+
+        document.getElementById(
+            "submitButton"
+        ).textContent =
+            "Add Patient";
+
+        document.getElementById(
+            "cancelButton"
+        ).style.display =
+            "none";
+
+    }
+
+    // ==========================================
+    // DELETE PATIENT
+    // ==========================================
+
+    function deletePatient(id) {
+
+        const confirmDelete =
+            confirm(
+                "Are you sure you want to delete this patient?"
+            );
+
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
+        fetch(
+            `/api/patients/${id}`,
+            {
+                method: "DELETE"
+            }
+        )
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            alert(data.message);
+
+            loadPatients();
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Error deleting patient:",
+                error
+            );
+
+        });
+
+    }
+
+    // ==========================================
+    // INITIAL LOAD
+    // ==========================================
+
+    loadPatients();
+
+</script>
+
+</body>
+
+</html>

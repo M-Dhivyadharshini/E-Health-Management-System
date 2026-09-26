@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Medical Records Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        nav {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            background-color: #125ca8;
+            padding: 10px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            background-color: #0d477f;
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        h2 {
+            color: #1976d2;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        button {
+            margin-top: 20px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* Add / Update */
+
+        #saveButton {
+            background-color: #1976d2;
+        }
+
+        #saveButton:hover {
+            background-color: #125ca8;
+        }
+
+        /* Cancel */
+
+        #cancelButton {
+            background-color: #1976d2;
+            color: white;
+            display: none;
+            margin-left: 10px;
+        }
+
+        #cancelButton:hover {
+            background-color: #125ca8;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f7fc;
+        }
+
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .edit-btn {
+            background-color: #0d47a1;
+            color: white;
+            margin: 0;
+        }
+
+        .edit-btn:hover {
+            background-color: #08306b;
+        }
+
+        .delete-btn {
+            background-color: #d32f2f;
+            color: white;
+            margin: 0 0 0 5px;
+        }
+
+        .delete-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 40px;
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                width: 200px;
+                text-align: center;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .form-container {
+                padding: 18px;
+            }
+
+            #cancelButton {
+                margin-left: 5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <h1>
+        E-Health Management System
+    </h1>
+
+    <p>
+        Medical Records Management
+    </p>
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="patients.html">
+            Patients
+        </a>
+
+        <a href="doctors.html">
+            Doctors
+        </a>
+
+        <a href="appointments.html">
+            Appointments
+        </a>
+
+        <a href="medical-records.html">
+            Medical Records
+        </a>
+
+    </nav>
+
+</header>
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<div class="container">
+
+    <!-- =========================
+         MEDICAL RECORD FORM
+    ========================= -->
+
+    <div class="form-container">
+
+        <h2 id="formTitle">
+            Add Medical Record
+        </h2>
+
+        <form id="medicalRecordForm">
+
+            <!-- Patient -->
+
+            <label for="patient">
+                Patient
+            </label>
+
+            <select id="patient" required>
+
+                <option value="">
+                    Select Patient
+                </option>
+
+            </select>
+
+            <!-- Diagnosis -->
+
+            <label for="diagnosis">
+                Diagnosis
+            </label>
+
+            <input
+                type="text"
+                id="diagnosis"
+                placeholder="Enter diagnosis"
+                required
+            >
+
+            <!-- Treatment -->
+
+            <label for="treatment">
+                Treatment
+            </label>
+
+            <textarea
+                id="treatment"
+                placeholder="Enter treatment details"
+            ></textarea>
+
+            <!-- Prescription -->
+
+            <label for="prescription">
+                Prescription
+            </label>
+
+            <textarea
+                id="prescription"
+                placeholder="Enter prescription"
+            ></textarea>
+
+            <!-- Record Date -->
+
+            <label for="recordDate">
+                Record Date
+            </label>
+
+            <input
+                type="date"
+                id="recordDate"
+                required
+            >
+
+            <!-- Save -->
+
+            <button
+                type="submit"
+                id="saveButton"
+            >
+                Add Medical Record
+            </button>
+
+            <!-- Cancel -->
+
+            <button
+                type="button"
+                id="cancelButton"
+                onclick="cancelEdit()"
+            >
+                Cancel
+            </button>
+
+            <div id="message"></div>
+
+        </form>
+
+    </div>
+
+    <!-- =========================
+         MEDICAL RECORD TABLE
+    ========================= -->
+
+    <h2>
+        Medical Records
+    </h2>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Diagnosis</th>
+                    <th>Treatment</th>
+                    <th>Prescription</th>
+                    <th>Record Date</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="recordsTableBody"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        E-Health Management System
+    </p>
+
+</footer>
+
+<script>
+
+    let editingRecordId = null;
+
+    // ===============================
+    // LOAD PATIENTS
+    // ===============================
+
+    async function loadPatients() {
+
+        try {
+
+            const response =
+                await fetch("/api/patients");
+
+            const patients =
+                await response.json();
+
+            const patientSelect =
+                document.getElementById("patient");
+
+            patientSelect.innerHTML =
+                '<option value="">Select Patient</option>';
+
+            patients.forEach(patient => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    patient.id;
+
+                option.textContent =
+                    patient.name +
+                    " (ID: " +
+                    patient.id +
+                    ")";
+
+                patientSelect.appendChild(option);
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error loading patients:",
+                error
+            );
+
+        }
+
+    }
+
+    // ===============================
+    // LOAD MEDICAL RECORDS
+    // ===============================
+
+    async function loadMedicalRecords() {
+
+        try {
+
+            const response =
+                await fetch("/api/medical-records");
+
+            const records =
+                await response.json();
+
+            const tableBody =
+                document.getElementById(
+                    "recordsTableBody"
+                );
+
+            tableBody.innerHTML = "";
+
+            records.forEach(record => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>
+                        ${record.id}
+                    </td>
+
+                    <td>
+                        ${record.patient_name}
+                    </td>
+
+                    <td>
+                        ${record.diagnosis}
+                    </td>
+
+                    <td>
+                        ${record.treatment || ""}
+                    </td>
+
+                    <td>
+                        ${record.prescription || ""}
+                    </td>
+
+                    <td>
+                        ${
+                            record.record_date
+                                ? record.record_date.substring(0, 10)
+                                : ""
+                        }
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="edit-btn"
+                            onclick="editRecord(
+                                ${record.id},
+                                ${record.patient_id},
+                                '${escapeQuotes(record.diagnosis)}',
+                                '${escapeQuotes(record.treatment || "")}',
+                                '${escapeQuotes(record.prescription || "")}',
+                                '${record.record_date ? record.record_date.substring(0, 10) : ""}'
+                            )"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteRecord(${record.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+                tableBody.appendChild(row);
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error loading medical records:",
+                error
+            );
+
+        }
+
+    }
+
+    // ===============================
+    // ESCAPE QUOTES
+    // ===============================
+
+    function escapeQuotes(value) {
+
+        return value
+            .replace(/\\/g, "\\\\")
+            .replace(/'/g, "\\'")
+            .replace(/\n/g, "\\n")
+            .replace(/\r/g, "\\r");
+
+    }
+
+    // ===============================
+    // ADD / UPDATE RECORD
+    // ===============================
+
+    document
+        .getElementById("medicalRecordForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+                const patientId =
+                    document.getElementById(
+                        "patient"
+                    ).value;
+
+                const diagnosis =
+                    document.getElementById(
+                        "diagnosis"
+                    ).value;
+
+                const treatment =
+                    document.getElementById(
+                        "treatment"
+                    ).value;
+
+                const prescription =
+                    document.getElementById(
+                        "prescription"
+                    ).value;
+
+                const recordDate =
+                    document.getElementById(
+                        "recordDate"
+                    ).value;
+
+                const recordData = {
+
+                    patient_id:
+                        patientId,
+
+                    diagnosis:
+                        diagnosis,
+
+                    treatment:
+                        treatment,
+
+                    prescription:
+                        prescription,
+
+                    record_date:
+                        recordDate
+
+                };
+
+                try {
+
+                    let response;
+
+                    if (editingRecordId === null) {
+
+                        response =
+                            await fetch(
+                                "/api/medical-records",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            recordData
+                                        )
+                                }
+                            );
+
+                    } else {
+
+                        response =
+                            await fetch(
+                                "/api/medical-records/" +
+                                editingRecordId,
+                                {
+                                    method: "PUT",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            recordData
+                                        )
+                                }
+                            );
+
+                    }
+
+                    const result =
+                        await response.json();
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            result.error ||
+                            result.message ||
+                            "Operation failed"
+                        );
+
+                    }
+
+                    document.getElementById(
+                        "message"
+                    ).textContent =
+                        result.message;
+
+                    document.getElementById(
+                        "medicalRecordForm"
+                    ).reset();
+
+                    editingRecordId = null;
+
+                    document.getElementById(
+                        "formTitle"
+                    ).textContent =
+                        "Add Medical Record";
+
+                    document.getElementById(
+                        "saveButton"
+                    ).textContent =
+                        "Add Medical Record";
+
+                    document.getElementById(
+                        "cancelButton"
+                    ).style.display =
+                        "none";
+
+                    loadMedicalRecords();
+
+                } catch (error) {
+
+                    document.getElementById(
+                        "message"
+                    ).textContent =
+                        "Error: " +
+                        error.message;
+
+                }
+
+            }
+        );
+
+    // ===============================
+    // EDIT RECORD
+    // ===============================
+
+    function editRecord(
+        id,
+        patientId,
+        diagnosis,
+        treatment,
+        prescription,
+        recordDate
+    ) {
+
+        editingRecordId = id;
+
+        document.getElementById(
+            "patient"
+        ).value =
+            patientId;
+
+        document.getElementById(
+            "diagnosis"
+        ).value =
+            diagnosis;
+
+        document.getElementById(
+            "treatment"
+        ).value =
+            treatment;
+
+        document.getElementById(
+            "prescription"
+        ).value =
+            prescription;
+
+        document.getElementById(
+            "recordDate"
+        ).value =
+            recordDate;
+
+        document.getElementById(
+            "formTitle"
+        ).textContent =
+            "Edit Medical Record";
+
+        document.getElementById(
+            "saveButton"
+        ).textContent =
+            "Update Medical Record";
+
+        document.getElementById(
+            "cancelButton"
+        ).style.display =
+            "inline-block";
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+    // ===============================
+    // CANCEL EDIT
+    // ===============================
+
+    function cancelEdit() {
+
+        editingRecordId = null;
+
+        document.getElementById(
+            "medicalRecordForm"
+        ).reset();
+
+        document.getElementById(
+            "formTitle"
+        ).textContent =
+            "Add Medical Record";
+
+        document.getElementById(
+            "saveButton"
+        ).textContent =
+            "Add Medical Record";
+
+        document.getElementById(
+            "cancelButton"
+        ).style.display =
+            "none";
+
+        document.getElementById(
+            "message"
+        ).textContent = "";
+
+    }
+
+    // ===============================
+    // DELETE RECORD
+    // ===============================
+
+    async function deleteRecord(id) {
+
+        const confirmDelete =
+            confirm(
+                "Are you sure you want to delete this medical record?"
+            );
+
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/medical-records/" + id,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+            const result =
+                await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    result.message ||
+                    "Delete failed"
+                );
+
+            }
+
+            alert(result.message);
+
+            loadMedicalRecords();
+
+        } catch (error) {
+
+            alert(
+                "Error: " +
+                error.message
+            );
+
+        }
+
+    }
+
+    // ===============================
+    // INITIAL LOAD
+    // ===============================
+
+    loadPatients();
+
+    loadMedicalRecords();
+
+</script>
+
+</body>
+
+</html>

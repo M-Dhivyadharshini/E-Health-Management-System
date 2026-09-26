@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Doctor Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        /* =========================
+           NAVIGATION BAR
+        ========================= */
+
+        nav {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            background-color: #125ca8;
+            padding: 10px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            background-color: #0d477f;
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1976d2;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        form {
+            background-color: white;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+            border-radius: 8px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 15px;
+
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        button {
+            padding: 10px 15px;
+
+            color: white;
+            border: none;
+            border-radius: 5px;
+
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* Add / Update */
+
+        .submit-button {
+            grid-column: span 2;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #1976d2;
+        }
+
+        .submit-button:hover {
+            background-color: #125ca8;
+        }
+
+        /* Edit */
+
+        .edit-button {
+            background-color: #0d47a1;
+            margin-right: 5px;
+        }
+
+        .edit-button:hover {
+            background-color: #08306b;
+        }
+
+        /* Delete */
+
+        .delete-button {
+            background-color: #d32f2f;
+        }
+
+        .delete-button:hover {
+            background-color: #b71c1c;
+        }
+
+        /* Cancel */
+
+        .cancel-button {
+            grid-column: span 2;
+            background-color: #1976d2;
+            display: none;
+        }
+
+        .cancel-button:hover {
+            background-color: #125ca8;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            margin-top: 30px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f7fc;
+        }
+
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 40px;
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                width: 200px;
+                text-align: center;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .submit-button,
+            .cancel-button {
+                grid-column: span 1;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <h1>
+        E-Health Management System
+    </h1>
+
+    <p>
+        Doctor Management
+    </p>
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="patients.html">
+            Patients
+        </a>
+
+        <a href="doctors.html">
+            Doctors
+        </a>
+
+        <a href="appointments.html">
+            Appointments
+        </a>
+
+        <a href="medical-records.html">
+            Medical Records
+        </a>
+
+    </nav>
+
+</header>
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<div class="container">
+
+    <h2>
+        Doctor Management
+    </h2>
+
+    <!-- =========================
+         DOCTOR FORM
+    ========================= -->
+
+    <form id="doctorForm">
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Doctor Name"
+            required
+        >
+
+        <input
+            type="text"
+            id="specialization"
+            placeholder="Specialization"
+            required
+        >
+
+        <input
+            type="text"
+            id="phone"
+            placeholder="Phone"
+        >
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email"
+        >
+
+        <button
+            type="submit"
+            id="submitButton"
+            class="submit-button"
+        >
+            Add Doctor
+        </button>
+
+        <button
+            type="button"
+            id="cancelButton"
+            class="cancel-button"
+            onclick="cancelEdit()"
+        >
+            Cancel
+        </button>
+
+    </form>
+
+    <!-- =========================
+         DOCTOR TABLE
+    ========================= -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Name</th>
+
+                    <th>Specialization</th>
+
+                    <th>Phone</th>
+
+                    <th>Email</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="doctorTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        E-Health Management System
+    </p>
+
+</footer>
+
+<script>
+
+    let editingDoctorId = null;
+
+    // ==========================================
+    // LOAD DOCTORS
+    // ==========================================
+
+    function loadDoctors() {
+
+        fetch("/api/doctors")
+
+            .then(response => response.json())
+
+            .then(doctors => {
+
+                const table =
+                    document.getElementById("doctorTable");
+
+                table.innerHTML = "";
+
+                doctors.forEach(doctor => {
+
+                    const row =
+                        document.createElement("tr");
+
+                    row.innerHTML = `
+
+                        <td>${doctor.id}</td>
+
+                        <td>${doctor.name}</td>
+
+                        <td>${doctor.specialization}</td>
+
+                        <td>${doctor.phone || ""}</td>
+
+                        <td>${doctor.email || ""}</td>
+
+                        <td>
+
+                            <button
+                                class="edit-button"
+                                onclick="editDoctor(${doctor.id})"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="delete-button"
+                                onclick="deleteDoctor(${doctor.id})"
+                            >
+                                Delete
+                            </button>
+
+                        </td>
+
+                    `;
+
+                    table.appendChild(row);
+
+                });
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Error loading doctors:",
+                    error
+                );
+
+            });
+
+    }
+
+    // ==========================================
+    // ADD / UPDATE DOCTOR
+    // ==========================================
+
+    document
+        .getElementById("doctorForm")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const doctorData = {
+
+                    name:
+                        document.getElementById(
+                            "name"
+                        ).value,
+
+                    specialization:
+                        document.getElementById(
+                            "specialization"
+                        ).value,
+
+                    phone:
+                        document.getElementById(
+                            "phone"
+                        ).value,
+
+                    email:
+                        document.getElementById(
+                            "email"
+                        ).value
+
+                };
+
+                let url = "/api/doctors";
+
+                let method = "POST";
+
+                if (editingDoctorId !== null) {
+
+                    url =
+                        `/api/doctors/${editingDoctorId}`;
+
+                    method = "PUT";
+
+                }
+
+                fetch(url, {
+
+                    method: method,
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(doctorData)
+
+                })
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    alert(data.message);
+
+                    resetForm();
+
+                    loadDoctors();
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "Error saving doctor:",
+                        error
+                    );
+
+                });
+
+            }
+        );
+
+    // ==========================================
+    // EDIT DOCTOR
+    // ==========================================
+
+    function editDoctor(id) {
+
+        fetch("/api/doctors")
+
+            .then(response => response.json())
+
+            .then(doctors => {
+
+                const doctor =
+                    doctors.find(
+                        d => d.id === id
+                    );
+
+                if (!doctor) {
+
+                    alert("Doctor not found");
+
+                    return;
+
+                }
+
+                editingDoctorId = id;
+
+                document.getElementById(
+                    "name"
+                ).value =
+                    doctor.name;
+
+                document.getElementById(
+                    "specialization"
+                ).value =
+                    doctor.specialization;
+
+                document.getElementById(
+                    "phone"
+                ).value =
+                    doctor.phone || "";
+
+                document.getElementById(
+                    "email"
+                ).value =
+                    doctor.email || "";
+
+                document.getElementById(
+                    "submitButton"
+                ).textContent =
+                    "Update Doctor";
+
+                document.getElementById(
+                    "cancelButton"
+                ).style.display =
+                    "block";
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+            });
+
+    }
+
+    // ==========================================
+    // CANCEL EDIT
+    // ==========================================
+
+    function cancelEdit() {
+
+        resetForm();
+
+    }
+
+    // ==========================================
+    // RESET FORM
+    // ==========================================
+
+    function resetForm() {
+
+        editingDoctorId = null;
+
+        document
+            .getElementById("doctorForm")
+            .reset();
+
+        document.getElementById(
+            "submitButton"
+        ).textContent =
+            "Add Doctor";
+
+        document.getElementById(
+            "cancelButton"
+        ).style.display =
+            "none";
+
+    }
+
+    // ==========================================
+    // DELETE DOCTOR
+    // ==========================================
+
+    function deleteDoctor(id) {
+
+        const confirmDelete =
+            confirm(
+                "Are you sure you want to delete this doctor?"
+            );
+
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
+        fetch(
+            `/api/doctors/${id}`,
+            {
+                method: "DELETE"
+            }
+        )
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            alert(data.message);
+
+            loadDoctors();
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Error deleting doctor:",
+                error
+            );
+
+        });
+
+    }
+
+    // ==========================================
+    // INITIAL LOAD
+    // ==========================================
+
+    loadDoctors();
+
+</script>
+
+</body>
+
+</html>
