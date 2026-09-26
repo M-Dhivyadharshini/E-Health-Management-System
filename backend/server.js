@@ -16,7 +16,7 @@ app.use(express.static("frontend"));
 // ===============================
 
 app.get("/", (req, res) => {
-    res.send("E-Health Management System API is running");
+    res.sendFile(__dirname + "/../frontend/index.html");
 });
 
 
