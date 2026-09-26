@@ -537,14 +537,25 @@ app.delete("/api/medical-records/:id", (req, res) => {
 // START SERVER
 // ===============================
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+if (require.main === module) {
 
-    console.log("MySQL + Express server started");
+    app.listen(PORT, () => {
 
-    console.log(
-        "Server running at http://localhost:" + PORT
-    );
+        console.log("MySQL + Express server started");
 
-});
+        console.log(
+            "Server running at http://localhost:" + PORT
+        );
+
+    });
+
+}
+
+
+// ===============================
+// VERCEL EXPORT
+// ===============================
+
+module.exports = app;
