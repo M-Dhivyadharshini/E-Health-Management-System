@@ -4,6 +4,22 @@
     {
       "source": "/api/:path*",
       "destination": "/backend/server.js"
+    },
+    {
+      "source": "/patients.html",
+      "destination": "/frontend/patients.html"
+    },
+    {
+      "source": "/doctors.html",
+      "destination": "/frontend/doctors.html"
+    },
+    {
+      "source": "/appointments.html",
+      "destination": "/frontend/appointments.html"
+    },
+    {
+      "source": "/medical-records.html",
+      "destination": "/frontend/medical-records.html"
     }
   ]
 }
